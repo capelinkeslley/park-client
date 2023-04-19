@@ -1,7 +1,10 @@
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
+import { IUserSignUp } from "../commons/interfaces";
+import AuthService from "../service/AuthService";
 
 
-export function CreateUser(){
+export function CreateUserPage(){
 
   const [form, setForm] = useState({
     name: "",
@@ -24,14 +27,21 @@ export function CreateUser(){
   }
 
   const onClickSignup = () => {
-    const user = {
-        name: form.name,
+    const userSignUp: IUserSignUp = {
+      name: form.name,
         email: form.email,
         phone: form.phone,
         document: form.document,
         password: form.password,
-    }
-    console.log( user );
+    };
+
+    AuthService.signup(userSignUp).then((response) => {
+      console.log(response.data)
+    }).catch((responseError) => {
+      console.log(responseError.data);
+    }).finally(() => {
+
+    });;
   }
 
   return (
@@ -108,6 +118,5 @@ export function CreateUser(){
         </div>
       </div>
     </div>
-    
   );
 }
